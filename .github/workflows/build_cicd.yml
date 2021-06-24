@@ -32,12 +32,8 @@ jobs:
       - name: Create Docker Image
         run: docker build . -f Dockerfile.prometheus -t ${ACR_NAME}.azurecr.io/${REPO_NAME}/${APP_NAME}:${VERSION_ID}
       # Runs a set of commands using the runners shell
-      # - name: Login to Azure
-      #   run: docker login ${ACR_NAME}.azurecr.io -u ${{ secrets.SNSERGIO_AZ_CLIENTID }} -p ${{ secrets.SNSERGIO_AZ_PWID }}
-      - name: login_to_azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.SNSERGIO_AZ_CRED }}
+      - name: Login to Azure
+        run: docker login ${ACR_NAME}.azurecr.io -u ${{ secrets.SNSERGIO_AZ_CLIENTID }} -p ${{ secrets.SNSERGIO_AZ_PWID }}
       - name: Push Image to ACR
         run: docker push ${ACR_NAME}.azurecr.io/${REPO_NAME}/${APP_NAME}:${VERSION_ID}
       - name: Image digest
