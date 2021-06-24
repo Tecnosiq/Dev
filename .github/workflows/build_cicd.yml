@@ -39,6 +39,6 @@ jobs:
           username: ${{ secrets.SNSERGIO_AZ_CLIENTID }}
           password: ${{ secrets.SNSERGIO_AZ_PWID }}
       - name: Push Image to ACR
-        run: docker push ${ACR_NAME}/${IMAGE_NAME}:${VERSION_ID}
+        run: docker push ${ACR_NAME}.azurecr.io/${APP_NAME}:${VERSION_ID}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
