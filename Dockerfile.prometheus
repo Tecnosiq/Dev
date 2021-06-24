@@ -1,0 +1,15 @@
+FROM ubuntu:focal
+WORKDIR /usr/app
+RUN apt-get update -y
+RUN apt install -y wget
+RUN wget https://github.com/prometheus/prometheus/releases/download/v2.27.0-rc.0/prometheus-2.27.0-rc.0.linux-amd64.tar.gz
+RUN tar -xzvf prometheus-2.27.0-rc.0.linux-amd64.tar.gz
+RUN rm prometheus-2.27.0-rc.0.linux-amd64.tar.gz
+RUN mv prometheus-2.27.0-rc.0.linux-amd64 prometheus
+RUN mkdir -p /usr/app/prometheus/rules
+RUN mkdir -p /usr/app/prometheus/config
+COPY ./config/prometheus.yml /usr/app/prometheus/prometheus.yml
+COPY ./config/exporter_service_discovery.yml /usr/app/prometheus/exporter_service_discovery.yml
+COPY ./promrules/* /usr/app/prometheus/rules/
+WORKDIR /usr/app/prometheus
+CMD ["./prometheus"]

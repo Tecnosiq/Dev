@@ -1,0 +1,14 @@
+- targets:
+  - azexporter.eastus2.cloudapp.azure.com:9102
+  labels:
+    purpose: "EyeFlow_Beta"
+    region: "Azure"
+    job_name: "AzureEyeflowExporter"
+    
+- targets:
+  - 187.0.173.70:9103
+  labels:
+    purpose: "Cost_Node"
+    region: "HPE_CEC"
+    job_name: "HPE_Cost"
+    

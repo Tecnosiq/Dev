@@ -1,0 +1,115 @@
+groups:
+  - name: host_status
+    rules:
+    - alert: slai-serv_down
+      expr: time() - push_time_seconds{exported_job="slai_serv_push_server"} > 45
+      for: 1m
+      labels:
+        severity: critical
+        app_type: server
+        environment: development
+        location: office_sp
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'SLAI-SERV server down'
+        description: '{{ $labels.exported_job }} not responding for more than a minute'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+        server_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000/d/rovyoT9Mz/slai-serv?orgId=1&refresh=5s
+
+    - alert: slai-rtx_down
+      expr: time() - push_time_seconds{exported_job="slai_rtx_push_server"} > 45
+      for: 1m
+      labels:
+        severity: critical
+        app_type: server
+        environment: development
+        location: office_sp
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'SLAI-RTX server down'
+        description: '{{ $labels.exported_job }} not responding for more than a minute'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+        server_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000/d/-68zGf9Gk/slai-rtx?orgId=1&refresh=5s&from=now-1h&to=now
+
+    - alert: slai-dev_down
+      expr: time() - push_time_seconds{exported_job="slai_dev_push_server"} > 45
+      for: 1m
+      labels:
+        severity: critical
+        app_type: server
+        environment: development
+        location: office_sp
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'SLAI-DEV server down'
+        description: '{{ $labels.exported_job }} not responding for more than a minute'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+        server_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000/d/Ene66arGk/slai-dev?orgId=1&refresh=5s&from=now-1h&to=now
+
+    - alert: hpe-cec_down
+      expr: time() - push_time_seconds{exported_job="hpe_cec_push_server"} > 45
+      for: 1m
+      labels:
+        severity: critical
+        app_type: server
+        environment: beta
+        location: office_barueri
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'HPE-CEC server down'
+        description: '{{ $labels.exported_job }} not responding for more than a minute'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+        server_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000/d/wReXGBrMk/hpe-cec?orgId=1&refresh=5s&from=now-1h&to=now
+
+    - alert: azure_down
+      expr: time() - push_time_seconds{exported_job="azure_push_server"} > 45
+      for: 1m
+      labels:
+        severity: critical
+        app_type: server
+        environment: beta
+        location: azure_cloud
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'Azure environment down'
+        description: '{{ $labels.exported_job }} not responding for more than a minute'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+        server_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000/d/TMSCdBrGk/azure?orgId=1&from=now-1h&to=now&refresh=10s
+
+  - name: Kubernetes
+    rules:
+    - alert: azure_eyeflow_deploy_pressure
+      expr: sum({__name__=~"azure.+total", __name__=~".+eyeflow.+", exported_job=~".+deploys"}) - sum({__name__=~"azure.+ready", __name__=~".+eyeflow.+", exported_job=~".+deploys"}) > 0
+      for: 1m
+      labels:
+        severity: critical
+        app_type: kubernetes
+        environment: beta
+        location: azure_cloud
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'Azure EyeFlow deployment less than required'
+        description: 'Check Azure deployment EyeFlow available instances'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+
+    - alert: azure_infrastructure_deploy_pressure
+      expr: sum({__name__=~"azure.+total", __name__!~".+eyeflow.+", exported_job=~".+deploys"}) - sum({__name__=~"azure.+ready", __name__!~".+eyeflow.+", exported_job=~".+deploys"}) > 0
+      for: 1m
+      labels:
+        severity: critical
+        app_type: kubernetes
+        environment: beta
+        location: azure_cloud
+        alert_user: '<@U01AQV5ED37>'
+      annotations:
+        summary: 'Azure Infrastructure deployment less than required'
+        description: 'Check Azure deployment Infrastructure available instances'
+        alert_link: http://azprometheus.eastus2.cloudapp.azure.com:9093/#/alerts
+        main_dashboard: http://azprometheus.eastus2.cloudapp.azure.com:3000
+
