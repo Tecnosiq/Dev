@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Create version tag
         run: echo "VERSION_ID=$(git rev-parse --short HEAD)-$(date +%y%m%d%H%M)" >> $GITHUB_ENV
+      - name: Show version ID
+        run: echo $VERSION_ID
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a single command using the runners shell
