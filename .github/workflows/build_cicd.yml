@@ -39,6 +39,6 @@ jobs:
           username: ${{ secrets.SNSERGIO_AZ_CLIENTID }}
           password: ${{ secrets.SNSERGIO_AZ_PWID }}
       - name: Push Image to ACR
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        run: docker push ${ACR_NAME}/${REPO_NAME}/${IMAGE_NAME}:${VERSION_ID}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
