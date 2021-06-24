@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Create version tag
-        run: echo "VERSION_ID=T$(git rev-parse --short HEAD)-$(date +%y%m%d%H%M)" >> $GITHUB_ENV
+        run: echo "VERSION_ID=TEST$(git rev-parse --short HEAD)-$(date +%y%m%d%H%M)" >> $GITHUB_ENV
       - name: Show version ID
         run: echo $VERSION_ID
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
